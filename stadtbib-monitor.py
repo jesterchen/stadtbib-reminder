@@ -72,7 +72,7 @@ def lambda_handler(event, context):
         text = ''
         for txt in mail_content:
             text += txt + '\n'
-        send_mailgun(text, 'Stadtbibliothek {}'.format(subject))
+        send_mailgun(text, 'Stadtbibliothek {}'.format(subject), user)
 
     return {
         'statusCode': 200,
@@ -80,16 +80,16 @@ def lambda_handler(event, context):
     }
 
 
-def send_mailgun(text, subject):
+def send_mailgun(text, subject, account_number):
     base_api_url = os.environ['BASEURL']
     api_key = os.environ['APIKEY']
     sender = os.environ['SENDER']
     recipients = os.environ['RECIPIENTS']
     account_name = os.environ['UNAME']
-    text = "Konto {}\n\n{}".format(account_name, text)
+    text = "Konto {} ({})\n\n{}".format(account_name, str(account_number), text)
     data = {'from': sender, 'to': recipients, 'subject': subject, 'text': text}
     r = requests.post(base_api_url + 'messages', data=data, auth=('api', api_key))
-
+    # todo add handling for r.status_code != 200, return proper result
 
 if __name__ == '__main__':
     result = lambda_handler([], [])

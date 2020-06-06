@@ -17,7 +17,8 @@ set environment variables:
 - `PWD=<password, e.g. birthdate DDMMYYYY>`
 - `UNAME=<name to be sent in notifications>`
  
-Start with `venv/bin/python stadtbib-monitor.py` (if you created a venv)
+Start with `venv/bin/python stadtbib-monitor.py [--list]` (if you created a venv)
+Parameter --list will send an email with all books regardless of due dates.
 
 ## ToDo
 There is no testing, no error handling, no reporting on failed logins, ... This is just "code that somehow works". I will need to rename some variables, esp. the env vars, introduce error handling, ...

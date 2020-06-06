@@ -6,6 +6,7 @@ from lxml import html
 import re
 import datetime
 import os
+import sys
 
 
 def lambda_handler(event, context):
@@ -57,14 +58,20 @@ def lambda_handler(event, context):
     now = datetime.datetime.now().date()
     mail_content = []
     subject = ''
+    info = False
+    if sys.argv[1] == '--list':
+        info = True
     for (date, ID) in zip(dates, ids):
         this = datetime.datetime.strptime(date, "%d.%m.%Y").date()
         date_diff = abs((this - now).days)
-        if date_diff < 5:
+        if date_diff < 5 or info:
             title = get_full_title_by_id(ID)
-            subject = 'Reminder'
-            if date_diff < 2:
+            if date_diff < 5:
+                subject = 'Reminder'
+            elif date_diff < 2:
                 subject = 'Dringend'
+            else:
+                subject = 'Info'
             tmp = '{}: Faellig am {} in {} Tagen - title {}'.format(subject, date, date_diff, title)
             mail_content.append(tmp)
 

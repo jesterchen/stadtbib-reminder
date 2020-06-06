@@ -59,7 +59,7 @@ def lambda_handler(event, context):
     mail_content = []
     subject = ''
     info = False
-    if sys.argv[1] == '--list':
+    if len(sys.argv) > 1 and sys.argv[1] == '--list':
         info = True
     for (date, ID) in zip(dates, ids):
         this = datetime.datetime.strptime(date, "%d.%m.%Y").date()

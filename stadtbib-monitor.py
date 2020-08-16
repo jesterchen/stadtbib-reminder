@@ -76,7 +76,7 @@ def lambda_handler(event, context):
                 subject = 'Reminder'
             else:
                 subject = 'Info'
-            tmp = '{}: Faellig am {} {} {} Tagen - title {}'.format(subject, date, fill_string date_diff, title)
+            tmp = '{}: Faellig am {} {} {} Tagen - title {}'.format(subject, date, fill_string, date_diff, title)
             mail_content.append(tmp)
 
     if len(mail_content) != 0:

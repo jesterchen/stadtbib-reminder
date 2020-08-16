@@ -63,16 +63,20 @@ def lambda_handler(event, context):
         info = True
     for (date, ID) in zip(dates, ids):
         this = datetime.datetime.strptime(date, "%d.%m.%Y").date()
-        date_diff = abs((this - now).days)
+        date_diff = (this - now).days
         if date_diff < 5 or info:
             title = get_full_title_by_id(ID)
-            if date_diff < 5:
-                subject = 'Reminder'
+            fill_string = 'in'
+            if date_diff < 0:
+                subject = 'Überfällig'
+                fill_string = 'vor'
             elif date_diff < 2:
                 subject = 'Dringend'
+            elif date_diff < 5:
+                subject = 'Reminder'
             else:
                 subject = 'Info'
-            tmp = '{}: Faellig am {} in {} Tagen - title {}'.format(subject, date, date_diff, title)
+            tmp = '{}: Faellig am {} {} {} Tagen - title {}'.format(subject, date, fill_string date_diff, title)
             mail_content.append(tmp)
 
     if len(mail_content) != 0:
